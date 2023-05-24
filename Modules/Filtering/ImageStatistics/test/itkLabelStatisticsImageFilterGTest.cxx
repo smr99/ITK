@@ -56,14 +56,6 @@ protected:
     filter->Update();
     return filter;
   }
-
-  void
-  CheckStats(LabelType label, RealType min, RealType max)
-  {
-    m_Filter->Update();
-    ASSERT_DOUBLE_EQ(m_Filter->GetMinimum(label), min);
-    ASSERT_DOUBLE_EQ(m_Filter->GetMaximum(label), max);
-  }
 };
 
 
