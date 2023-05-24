@@ -123,17 +123,19 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::AfterStreamedGenerateData(
   {
     typename MapType::mapped_type & labelStats = mapValue.second;
 
-    labelStats.m_Mean = labelStats.m_Sum / static_cast<RealType>(labelStats.m_Count);
+    const RealType sum(labelStats.m_Sum);
+    labelStats.m_Mean = sum / static_cast<RealType>(labelStats.m_Count);
 
     // variance
     if (labelStats.m_Count > 1)
     {
       // unbiased estimate of variance
       LabelStatistics & ls = mapValue.second;
-      const RealType    sumSquared = ls.m_Sum * ls.m_Sum;
+      const RealType    lssum(ls.m_Sum);
+      const RealType    sumSquared = lssum * lssum;
       const auto        count = static_cast<RealType>(ls.m_Count);
 
-      ls.m_Variance = (ls.m_SumOfSquares - sumSquared / count) / (count - 1.0);
+      ls.m_Variance = (ls.m_SumOfSquares.GetSum() - sumSquared / count) / (count - 1.0);
     }
     else
     {
@@ -350,7 +352,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSum(LabelPixelType labe
   }
   else
   {
-    return mapIt->second.m_Sum;
+    return mapIt->second.m_Sum.GetSum();
   }
 }
 

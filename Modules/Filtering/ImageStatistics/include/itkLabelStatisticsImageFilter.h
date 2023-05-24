@@ -19,6 +19,7 @@
 #define itkLabelStatisticsImageFilter_h
 
 #include "itkImageSink.h"
+#include "itkCompensatedSummation.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkHistogram.h"
@@ -225,8 +226,8 @@ public:
     RealType                        m_Minimum;
     RealType                        m_Maximum;
     RealType                        m_Mean;
-    RealType                        m_Sum;
-    RealType                        m_SumOfSquares;
+    CompensatedSummation<RealType>  m_Sum;
+    CompensatedSummation<RealType>  m_SumOfSquares;
     RealType                        m_Sigma;
     RealType                        m_Variance;
     BoundingBoxType                 m_BoundingBox;
